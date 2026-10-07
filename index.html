@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Narratives</title>
+  <style>html, body { margin: 0; background: #120d0a; }</style>
+  <script src="https://cdn.jsdelivr.net/npm/aframe@1.8.0/dist/aframe-v1.8.0.min.js"></script>
+  <script src="js/narratives.js"></script>
+</head>
+<body>
+
+<a-scene
+  renderer="antialias: true; toneMapping: neutral; logarithmicDepthBuffer: false"
+  light="defaultLightsEnabled: false"
+  loading-screen="dotsColor: #ffb36b; backgroundColor: #120d0a">
+
+
+  <!-- 1. YOUR FILES
+       Drop them in assets/, then list them here with an id. -->
+  <a-assets timeout="30000">
+    <a-asset-item id="chairModel" src="assets/models/chair.gltf"></a-asset-item>
+
+    </a-assets>
+
+  <a-assets timeout="30000">
+    <a-asset-item id="cupModel" src="assets/models/cup.gltf"></a-asset-item>
+
+    </a-assets>
+
+  <a-assets timeout="30000">
+    <a-asset-item id="tableModel" src="assets/models/table.gltf"></a-asset-item>
+
+    </a-assets>
+
+
+    <!-- <a-asset-item id="my-model" src="assets/models/my-model.glb"></a-asset-item> -->
+    <!-- <a-asset-item id="my-scan" src="assets/models/my-scan/scene.gltf"></a-asset-item> -->
+    <!-- <img id="my-image" src="assets/images/my-image.jpg"> -->
+  </a-assets>
+
+  <a-entity 
+  gltf-model="#chairModel" 
+  position="6.5 0 0" 
+  rotation="0 245 0" 
+  scale="0.3 0.3 0.3">
+  </a-entity>
+
+  <a-entity 
+  gltf-model="#cupModel" 
+  position="5 1.15 -0.5" 
+  rotation="0 0 0" 
+  scale="0.3 0.3 0.3">
+  </a-entity>
+
+  <a-entity 
+  gltf-model="#tableModel" 
+  position="5.5 -0.5 -1" 
+  rotation="0 255 0" 
+  scale="0.25 0.25 0.25  ">
+  </a-entity>
+
+
+  <!-- 2. YOUR WORK
+       position = x y z in meters (floor is 0, far wall is z -9)
+       rotation = x y z in degrees (the middle one turns it around)
+       scale    = 1 1 1 is normal size -->
+
+  <!-- middle of the room, above the pit -->
+  <!-- <a-entity gltf-model="#my-model" position="0 1.35 0" rotation="0 0 0" scale="1 1 1"></a-entity> -->
+
+  <!-- on the floor -->
+  <!-- <a-entity gltf-model="#my-scan" position="3 0 -4" rotation="0 -30 0" scale="1 1 1"></a-entity> -->
+
+  <!-- on the far wall -->
+  <!-- <a-image src="#my-image" position="0 1.6 -8.9" width="2" height="1.4"></a-image> -->
+
+  <!-- way too big or too small? add fit-model="size: 1.5"
+       has animation? add play-clips -->
+
+
+  <!-- 3. YOU
+       Drag to look around. -->
+  <a-entity position="0 0 6.2">
+    <a-entity camera look-controls start-view="pitch: 24" position="0 1.6 0"></a-entity>
+  </a-entity>
+
+
+  <!-- 4. THE ROOM
+       You can leave this alone. -->
+  <a-entity id="room" room-light>
+
+    <!-- dome: try #ff4060, #6b3cff or #f2ece2 -->
+    <a-sphere radius="1" theta-start="10" theta-length="80" segments-width="128" segments-height="48"
+      scale="9.2 7.1 9.2" position="0 2.74 0"
+      material="shader: dome; color: #ff8636; brightness: 1; side: back"></a-sphere>
+
+    <!-- sky: #050916 for night -->
+    <a-sky material="shader: open-sky; color: #18a2ff; clouds: 0.3"></a-sky>
+
+    <!-- sunlight through the hole -->
+    <a-entity light="type: spot; color: #dcecff; intensity: 120; angle: 22; penumbra: 1; decay: 1.4"
+      position="0 9.8 0" rotation="-90 0 0"></a-entity>
+
+    <!-- ledge -->
+    <a-ring radius-inner="8.65" radius-outer="9.2" segments-theta="128" position="0 2.6 0" rotation="90 0 0"
+      material="color: #d8cbbb; roughness: 0.9"></a-ring>
+    <a-cylinder radius="8.65" height="0.14" segments-radial="128" open-ended="true" position="0 2.67 0"
+      material="color: #d8cbbb; roughness: 0.9; side: back"></a-cylinder>
+
+    <!-- wall and bench -->
+    <a-cylinder radius="9" height="2.15" segments-radial="128" open-ended="true" position="0 1.525 0"
+      material="roughness: 0.64; side: back" wood="pattern: boards; repeat: 24"></a-cylinder>
+    <a-ring radius-inner="8.55" radius-outer="9" segments-theta="128" position="0 0.45 0" rotation="-90 0 0"
+      material="roughness: 0.5" wood="pattern: rings"></a-ring>
+    <a-cylinder radius="8.55" height="0.35" segments-radial="128" open-ended="true" position="0 0.275 0"
+      material="roughness: 0.64; side: back" wood="pattern: boards; repeat: 23"></a-cylinder>
+    <a-cylinder radius="8.62" height="0.1" segments-radial="128" open-ended="true" position="0 0.05 0"
+      material="color: #1c1512; roughness: 0.9; side: back"></a-cylinder>
+
+    <!-- floor -->
+    <a-ring radius-inner="2.6" radius-outer="9" segments-theta="128" segments-phi="4" rotation="-90 0 0"
+      material="roughness: 0.46" wood="pattern: rings"></a-ring>
+
+    <!-- pit -->
+    <a-torus radius="2.63" radius-tubular="0.012" segments-tubular="200" segments-radial="8"
+      position="0 0.012 0" rotation="90 0 0" material="shader: flat; color: #fff4e6"></a-torus>
+    <a-cylinder radius="2.6" height="0.95" segments-radial="96" open-ended="true" position="0 -0.475 0"
+      material="color: #c4b8ac; roughness: 0.66; side: back" wood="pattern: boards; repeat: 7"></a-cylinder>
+    <a-ring radius-inner="2.05" radius-outer="2.6" segments-theta="96" position="0 -0.44 0" rotation="-90 0 0"
+      material="color: #2a221c; roughness: 0.95"></a-ring>
+    <a-cylinder radius="2.05" height="0.07" segments-radial="96" open-ended="true" position="0 -0.475 0"
+      material="color: #2a221c; roughness: 0.95; side: back"></a-cylinder>
+    <a-cylinder radius="2.05" height="0.44" segments-radial="96" open-ended="true" position="0 -0.73 0"
+      material="color: #c4b8ac; roughness: 0.66; side: back" wood="pattern: boards; repeat: 6"></a-cylinder>
+    <a-circle radius="2.05" segments="96" position="0 -0.95 0" rotation="-90 0 0"
+      material="color: #5e4330; roughness: 0.6"></a-circle>
+
+  </a-entity>
+
+</a-scene>
+
+</body>
+</html>
